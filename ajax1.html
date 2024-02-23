@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax practice!</title>
+</head>
+
+<body>
+
+    <button id="button">
+        Get taxt file
+    </button>
+
+    <br><br>
+
+    <div id="text"></div>
+    <script>
+        document.getElementById('button').addEventListener('click', loadText)
+
+        function loadText() {
+            //create a xhr object
+            var xhr = new XMLHttpRequest()
+            //create a function to make a request its type and to where we are making the request
+            //OPEN is a built in function to make a request where it takes type, url/file, and if it is async or not
+            // console.log(xhr) give us all the properties that xhr provides
+
+            xhr.open('GET', 'sample.txt', true)
+
+            // onprogress => used for loaders
+
+            xhr.onprogress = function () {
+                console.log('readystate: ', xhr.readyState)
+            }
+
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    // console.log(this.responseText)
+                    // the above console.log() will be used to show the text response in the console of browser
+                    // but the below one will be used to manipulate the dom and enter it in div tag element
+                    document.getElementById('text').innerHTML = this.responseText
+                }else if(this.status == 404){
+                    // we can use else if statemnet to check for other response errors
+
+                    document.getElementById('text').innerHTML = "not found"
+                }
+            }
+
+            //for error if we have to used onload
+            xhr.onerror = function () {
+                console.log("error.... or any thing that you want to do like controllers")
+            }
+            xhr.send()
+
+        }
+    </script>
+</body>
+
+</html>
